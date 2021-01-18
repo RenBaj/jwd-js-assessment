@@ -22,9 +22,9 @@
 window.addEventListener('DOMContentLoaded', () => {
   const start = document.querySelector('#start');
   start.addEventListener('click', function (e) {
-    document.querySelector('#quizBlock').style.display = 'block';
-    start.style.display = 'none';
-  });
+    document.querySelector("#quizBlock").style.display = "block";
+    start.style.display = "none";
+    
   // quizArray QUESTIONS & ANSWERS
   // q = QUESTION, o = OPTIONS, a = CORRECT ANSWER
   // Basic ideas from https://code-boxx.com/simple-javascript-quiz/
@@ -45,6 +45,18 @@ window.addEventListener('DOMContentLoaded', () => {
       a: 1,
     },
   ];
+  //Push addtional question to the quiz list
+  const quiz4 = {
+    q: "What is the smallest planet in our Soloar System?",
+    o: ["Earth", "Mercury", "Jupiter", "Mars"],
+    a: 1,
+  };
+  const quiz5 = {
+    q: "What is the largest planet in our solar system?",
+    o: ["Earth", "Mercury", "Jupiter", "Mars"],
+    a: 2,
+  };
+  quizArray.push(quiz4,quiz5);
 
   // function to Display the quiz questions and answers from the object
   const displayQuiz = () => {
@@ -63,28 +75,42 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // Calculate the score
-  const calculateScore = () => {
+  // Calculate the score and highlight the correct answer
+  let quiz = document.querySelector("#btnSubmit");
+  quiz.addEventListener("click", calculateScore);
+  function calculateScore(){
     let score = 0;
     quizArray.map((quizItem, index) => {
       for (let i = 0; i < 4; i++) {
         //highlight the li if it is the correct answer
         let li = `li_${index}_${i}`;
         let r = `radio_${index}_${i}`;
-        liElement = document.querySelector('#' + li);
-        radioElement = document.querySelector('#' + r);
-
+        liElement = document.querySelector("#" + li);
+        radioElement = document.querySelector("#" + r);
         if (quizItem.a == i) {
           //change background color of li element here
+          liElement.style.backgroundColor = "green";
         }
-
-        if (radioElement.checked) {
-          // code for task 1 goes here
+        if ((radioElement.checked == true) && (quizItem.a == i)) {  
+          score += 1;
         }
       }
+        
     });
+    const totalScore = document.querySelector("#score");
+    totalScore.innerHTML = `You Scored ${score}/${quizArray.length}`;
+    totalScore.style.color = 'green';
+    totalScore.style.fontSize = 'x-large';
+  
   };
+  //reload the page when reset button in clicked
+  let reset = document.querySelector("#btnReset");
+  reset.addEventListener("click", resetPage);
+  function resetPage(){
+    window.location.reload();
+  }
 
   // call the displayQuiz function
-  displayQuiz();
+  displayQuiz(); 
+})
 });
