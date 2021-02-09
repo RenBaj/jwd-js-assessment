@@ -7,3 +7,4 @@ Features include:
 1. Timer
 2. Highlight correct answers when submit.
 3. Display the score
+4. Reset button
